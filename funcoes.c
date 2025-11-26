@@ -42,6 +42,7 @@ void listarLivros(Livro *livros, int totalLivros)
 void buscarTitulo(Livro *livros, int totalLivros)
 {
     char tituloBusca[max_titulo];
+    int encontrado = 0;
 
     printf("Digite o titulo do livro para buscar: \n");
     scanf(" %99[^\n]", tituloBusca);
@@ -58,13 +59,12 @@ void buscarTitulo(Livro *livros, int totalLivros)
             printf("Autor: %s\n", livros[i].autor);
             printf("Ano: %d\n", livros[i].ano_publicacao);
             printf("Preco: %.2f\n", livros[i].preco);
-            return;
+            encontrado = 1;
         }
-        else
-        {
-            printf("\n");
-            printf("Livro nao encontrado.\n");
-        }
+    }
+    if (!encontrado)
+    {
+        printf("Livro nao encontrado.\n", tituloBusca);
     }
 }
 
