@@ -1,23 +1,34 @@
 #include <stdio.h>
-#include <livro.h>
+#include <string.h>
+#include <stdlib.h>
+#include "livro.h"
 
 
-int main(){
-void cadastrarLivro(Livro a) {
-    printf("Digite o titulo do livro: ");
-    scanf(" %99[^\n]", a->titulo);
-    printf("Digite o Autor: ");
-    scanf(" %49[^\n]", a->autor);
-    printf("Digite o ano de publicacao: ");
-    scanf(" %d", &a->ano_publicacao);
-    printf("Digite o numero de paginas: ");
-    scanf(" %9[^\n]", a->preco);
+
+void cadastrarLivro(Livro *livros, int *totalLivros) {
+    (*totalLivros)++;
+
+    Livro *novoLivro = &((*livros)[*totalLivros - 1]);
+
+    printf("Digite o título do livro: ");
+    scanf(" %99[^\n]", novoLivro->titulo);
+
+    printf("Digite o autor: ");
+    scanf(" %49[^\n]", novoLivro->autor);
+
+    printf("Digite o ano de publicação: ");
+    scanf("%d", &novoLivro->ano_publicacao);
+
+    printf("Digite o preço: ");
+    scanf("%f", &novoLivro->preco);
+
+    printf("Livro cadastrado com sucesso!\n");
 }
 
 
 
 
-void listarLivros(Livro a) {
+void listarLivros(Livro livros[], int totalLivros) {
     for(int i=0; i<max_livro; i++){
     printf("Titulo: %s\n", a.titulo);
     printf("Autor: %s\n", a.autor);
@@ -28,7 +39,7 @@ void listarLivros(Livro a) {
 
 
 
-void buscarTitulo(struct Livro a) {
+void buscarTitulo(Livro livros[], int totalLivros) {
     char tituloBusca[100];
     printf("Digite o titulo do livro para buscar: ");
     scanf(" %99[^\n]", tituloBusca);
@@ -44,5 +55,36 @@ void atualizarLivro (struct Livro a){
 }
 
 
-return 0;
+
+
+
+
+
+
+
+
+void salvarDadosArquivo(Livro *livros, int totalLivros) {
+    FILE *arquivo = fopen("dados_livros.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao salvar os dados!\n");
+        return;
+    }
+
+    fprintf(arquivo, "%d\n", totalLivros);
+    for (int i = 0; i < totalLivros; i++) {
+        fprintf(arquivo, "%s\n", livros[i].titulo);
+        fprintf(arquivo, "%s\n", livros[i].autor);
+        fprintf(arquivo, "%d\n", livros[i].ano_publicacao);
+        fprintf(arquivo, "%.2f\n", livros[i].preco);
+    }
+
+    fclose(arquivo);
 }
+
+void carregarDadosArquivo(Livro **livros, int *totalLivros) {
+    FILE *arquivo = fopen("dados_livros.txt", "r");
+    if (arquivo == NULL) {
+        *totalLivros = 0;
+        *livros = NULL; // Garante que o ponteiro é NULL se não houver arquivo
+        return;
+    }

@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <locale.h>
 #include <string.h>
-#include <livro.h>
+#include <stdlib.h>
+#include "livro.h"
 
 int main()
 {
 
     setlocale(LC_ALL, "pt-br");
-    int n = 0;
-    char a;
-    Livro a;
+    int totalLivros = 0;
+    int n;
+    Livro livros[max_livro];
 
+    carregarDadosArquivo(livros, &totalLivros);
 
     do
     {
@@ -24,48 +26,45 @@ int main()
         printf("0 - Sair\t\n");
         scanf("%d", &n);
 
-        if (n == 0)
-        {
-            printf("Sair\t\n");
-            sair(a);
-            break;
-        }
-
         switch (n)
         {
 
+        case 0:
+            printf("Salvando e saindo...\n");
+            salvarDadosArquivo(livros, totalLivros);
+            break;
+
         case 1:
             printf("Cadastrar Livro:\t\n");
-            cadastrarLivro(a);
+            cadastrarLivro(livros, &totalLivros);
             break;
 
         case 2:
             printf("Listar todos os Livros:\t\n");
-            listarLivros(a);
+            listarLivros(livros, totalLivros);
             break;
 
         case 3:
             printf("Buscar Livro por título:\t\n");
-            buscarTitulo(a);
+            buscarTitulo(livros, totalLivros);
             break;
 
         case 4:
             printf("Atualizar Livro:\t\n");
-            atualizarLivro(a);
+            atualizarLivro(livros, totalLivros);
             break;
 
         case 5:
             printf("Deletar Livro:\t\n");
-            deletarLivro(a);
+            deletarLivro(livros, &totalLivros);
             break;
 
         default:
             printf("Opção inválida. Escolha um número entre 0 e 5.\t\n");
             break;
         }
-        
-            
-    }while(n != 0);
+
+    } while (n != 0);
 
     return 0;
 }
