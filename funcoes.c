@@ -3,75 +3,96 @@
 #include <stdlib.h>
 #include "livro.h"
 
+void cadastrarLivro(Livro *livros, int *totalLivros)
+{
 
+    Livro *novoLivro = &livros[*totalLivros];
 
-void cadastrarLivro(Livro *livros, int *totalLivros) {
-    (*totalLivros)++;
-
-    Livro *novoLivro = &((*livros)[*totalLivros - 1]);
-
-    printf("Digite o título do livro: ");
+    printf("Digite o titulo do livro: ");
     scanf(" %99[^\n]", novoLivro->titulo);
 
     printf("Digite o autor: ");
     scanf(" %49[^\n]", novoLivro->autor);
 
-    printf("Digite o ano de publicação: ");
+    printf("Digite o ano de publicacao: ");
     scanf("%d", &novoLivro->ano_publicacao);
 
-    printf("Digite o preço: ");
+    printf("Digite o preco: ");
     scanf("%f", &novoLivro->preco);
 
+    (*totalLivros)++;
+    printf("\n");
     printf("Livro cadastrado com sucesso!\n");
+    printf("\n");
 }
 
-
-
-
-void listarLivros(Livro livros[], int totalLivros) {
-    for(int i=0; i<max_livro; i++){
-    printf("Titulo: %s\n", a.titulo);
-    printf("Autor: %s\n", a.autor);
-    printf("Ano de Publicacao: %d\n", a.ano_publicacao);
-    printf("Preco: %d\n", a.preco);
+void listarLivros(Livro *livros, int totalLivros)
+{
+    for (int i = 0; i < totalLivros; i++)
+    {
+        printf("\n");
+        printf("\nLivro #%d\n", i + 1);
+        printf("Titulo: %s\n", livros[i].titulo);
+        printf("Autor: %s\n", livros[i].autor);
+        printf("Ano: %d\n", livros[i].ano_publicacao);
+        printf("Preco: %.2f\n", livros[i].preco);
     }
 }
 
+void buscarTitulo(Livro *livros, int totalLivros)
+{
+    char tituloBusca[max_titulo];
 
-
-void buscarTitulo(Livro livros[], int totalLivros) {
-    char tituloBusca[100];
-    printf("Digite o titulo do livro para buscar: ");
+    printf("Digite o titulo do livro para buscar: \n");
     scanf(" %99[^\n]", tituloBusca);
-    if (strcmp(a.titulo, tituloBusca) == 0) {
-        listarTodos(a);
-    } else {
-        printf("Livro nao encontrado.\n");
+
+    for (int i = 0; i < totalLivros; i++)
+    {
+
+        if (strcmp(livros[i].titulo, tituloBusca) == 0)
+        {
+            printf("\n");
+            printf("\n--- Livro Encontrado ---\n");
+            printf("\n");
+            printf("Titulo: %s\n", livros[i].titulo);
+            printf("Autor: %s\n", livros[i].autor);
+            printf("Ano: %d\n", livros[i].ano_publicacao);
+            printf("Preco: %.2f\n", livros[i].preco);
+            return;
+        }
+        else
+        {
+            printf("\n");
+            printf("Livro nao encontrado.\n");
+        }
     }
 }
 
-void atualizarLivro (struct Livro a){
+void deletarLivro(Livro livros[], int *totalLivros)
+{
 
+    int numeroLivro;
+    printf("\nDigite o numero do livro para deletar: \n");
+    scanf("%d", &numeroLivro);
+
+    int indice = numeroLivro - 1;
+
+    for (int i = indice; i < *totalLivros - 1; i++)
+    {
+        livros[i] = livros[i + 1];
+    }
+
+    (*totalLivros)--;
+    printf("\n");
+    printf("Livro deletado com sucesso!\n");
 }
 
-
-
-
-
-
-
-
-
-
-void salvarDadosArquivo(Livro *livros, int totalLivros) {
+void salvarDadosArquivo(Livro livros[], int totalLivros)
+{
     FILE *arquivo = fopen("dados_livros.txt", "w");
-    if (arquivo == NULL) {
-        printf("Erro ao salvar os dados!\n");
-        return;
-    }
-
     fprintf(arquivo, "%d\n", totalLivros);
-    for (int i = 0; i < totalLivros; i++) {
+    for (int i = 0; i < totalLivros; i++)
+    {
         fprintf(arquivo, "%s\n", livros[i].titulo);
         fprintf(arquivo, "%s\n", livros[i].autor);
         fprintf(arquivo, "%d\n", livros[i].ano_publicacao);
@@ -81,10 +102,19 @@ void salvarDadosArquivo(Livro *livros, int totalLivros) {
     fclose(arquivo);
 }
 
-void carregarDadosArquivo(Livro **livros, int *totalLivros) {
+void carregarDadosArquivo(Livro livros[], int *totalLivros)
+{
     FILE *arquivo = fopen("dados_livros.txt", "r");
-    if (arquivo == NULL) {
-        *totalLivros = 0;
-        *livros = NULL; // Garante que o ponteiro é NULL se não houver arquivo
-        return;
+
+    fscanf(arquivo, "%d", totalLivros);
+
+    for (int i = 0; i < *totalLivros; i++)
+    {
+        fscanf(arquivo, " %99[^\n]", livros[i].titulo);
+        fscanf(arquivo, " %49[^\n]", livros[i].autor);
+        fscanf(arquivo, "%d", &livros[i].ano_publicacao);
+        fscanf(arquivo, "%f", &livros[i].preco);
     }
+
+    fclose(arquivo);
+}

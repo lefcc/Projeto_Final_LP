@@ -15,7 +15,6 @@ typedef struct {
 void cadastrarLivro(Livro livros[], int *totalLivros);
 void listarLivros(Livro livros[], int totalLivros);
 void buscarTitulo(Livro livros[], int totalLivros);
-void atualizarLivro(Livro livros[], int totalLivros);
 void deletarLivro(Livro livros[], int *totalLivros);
 
 void salvarDadosArquivo(Livro livros[], int totalLivros);

@@ -16,15 +16,17 @@ int main()
 
     do
     {
-        printf("=== MENU === \t\n");
-        printf("Escolha uma das opcoes (0 - 5)\t\n");
-        printf("1 - Cadastrar Livro\t\n");
-        printf("2 - Listas todos os Livros\t\n");
-        printf("3 - Buscar Livro por Título\t\n");
-        printf("4 - Atualizar Livro\t\n");
-        printf("5 - Deletar Livro\t\n");
-        printf("0 - Sair\t\n");
-        scanf("%d", &n);
+        printf("\n");
+        printf("\n");
+        printf("\t===== MENU ===== \n");
+        printf("Escolha uma das opcoes (0 - 4):\n");
+        printf("1 - Cadastrar Livro\n");
+        printf("2 - Listas todos os Livros\n");
+        printf("3 - Buscar Livro por Título\n");
+        printf("4 - Deletar Livro\n");
+        printf("0 - Sair\n");
+        scanf("\n%d", &n);
+       
 
         switch (n)
         {
@@ -40,27 +42,22 @@ int main()
             break;
 
         case 2:
-            printf("Listar todos os Livros:\t\n");
+            printf("Lista de todos os Livros:\t\n");
             listarLivros(livros, totalLivros);
             break;
 
         case 3:
-            printf("Buscar Livro por título:\t\n");
+            printf("Busca do Livro por título:\t\n");
             buscarTitulo(livros, totalLivros);
             break;
 
         case 4:
-            printf("Atualizar Livro:\t\n");
-            atualizarLivro(livros, totalLivros);
-            break;
-
-        case 5:
             printf("Deletar Livro:\t\n");
             deletarLivro(livros, &totalLivros);
             break;
 
         default:
-            printf("Opção inválida. Escolha um número entre 0 e 5.\t\n");
+            printf("Opcao invalida. Escolha um numero entre 0 e 4.\t\n");
             break;
         }
 
